@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Digikala Scrapper</title>
+    <link rel="icon" href="./fav.png" type="image/x-icon" />
+    <link href="./index.css" rel="stylesheet">
+    <script src="./renderer.js" defer type="module"></script>
+</head>
+<body dir="rtl">
+
+<div class="container p-3">
+    <div x-data="categories" class="justify-content-center" :class="loading ? 'd-flex' : ''">
+        <template x-if="loading">
+            <div class="spinner-border"></div>
+        </template>
+
+        <template x-if="!loading">
+            <div>
+                <nav x-show="breadCrumbs.length>0">
+                    <ol class="breadcrumb">
+                        <template x-for="crumb in breadCrumbs">
+                            <li class="crumb pointer" @click="goToCrumb(crumb)" x-text="crumb.title"></li>
+                        </template>
+                    </ol>
+                </nav>
+
+                <ul class="nav d-flex flex-column text-right p-0">
+                    <template x-for="category in categories.filter(x=>x.parent_id===selectedCategory)">
+                        <li class="border rounded p-2 m-1 pointer" x-text="category.title" @click="selectCategory(category)"></li>
+                    </template>
+                </ul>
+
+                <hr class="my-3">
+
+                <div class="form-group">
+                    <label for="products" class="float-right">محصولات</label>
+                    <textarea id="products" x-model="products" class="form-control"></textarea>
+                </div>
+
+                <button class="btn btn-outline-success" @click="submitProducts" :disabled="!selectedCategory">ثبت محصولات</button>
+            </div>
+        </template>
+    </div>
+</div>
+</body>
+</html>

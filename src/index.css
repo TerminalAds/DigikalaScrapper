@@ -1,0 +1,25 @@
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../node_modules/vazirmatn/misc/UI-Farsi-Digits/Vazirmatn-UI-FD-font-face.css";
+
+body {
+    font-family: Vazirmatn UI FD , sans-serif;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.crumb::after{
+    content: '>';
+    font-family: Vazirmatn UI FD , sans-serif;
+    padding: 0 3px;
+    color: blue;
+}
+
+.crumb:last-child::after {
+    content: '';
+}
+
+.crumb:last-child {
+    color: purple;
+}
