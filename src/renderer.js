@@ -4,13 +4,17 @@ window.Alpine = Alpine;
 
 Alpine.data('categories', () => ({
     loading: false,
-    importMass: true,
+    importMass: false,
     categories: [],
     selectedCategory: null,
     breadCrumbs: [],
     _products: '',
     productList: '',
-    page:10,
+    pages: {
+        from: 1,
+        to: 10,
+        lastPage: 0
+    },
     init() {
         this.loading = true;
 
@@ -41,7 +45,7 @@ Alpine.data('categories', () => ({
         if (!this.importMass)
             this.getProducts();
         else
-            console.log('salam');
+            this.getProductsPageByPage();
     },
     async getProducts() {
         this.loading = true;
@@ -51,6 +55,27 @@ Alpine.data('categories', () => ({
         for (let item of items) {
             const product = await getDigikalaProduct(item[1]);
             await this.storeProduct(product);
+        }
+
+        this.loading = false;
+    },
+    async getProductsPageByPage() {
+        this.loading = true;
+
+        for (let page = this.pages.from; page <= this.pages.to; page++) {
+            const products = await getDigikalaProducts({
+                url: this.productList,
+                page
+            });
+
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            this.pages.lastPage = page;
+
+            for (const item of products) {
+                const product = await getDigikalaProduct(item.id);
+                await this.storeProduct(product);
+            }
         }
 
         this.loading = false;

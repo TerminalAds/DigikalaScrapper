@@ -5,7 +5,7 @@
   "description": "this application try to collect Digikala products.",
   "main": "./main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "NODE_ENV=true electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",

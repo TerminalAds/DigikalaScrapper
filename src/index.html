@@ -14,7 +14,14 @@
 <div class="container p-3">
     <div x-data="categories" class="justify-content-center" :class="loading ? 'd-flex' : ''">
         <template x-if="loading">
-            <div class="spinner-border"></div>
+            <div class="row col">
+                <div class="alert alert-info col-12 text-right" x-show="importMass">
+                    آخرین صفحه:
+                    <strong x-text="pages.lastPage" class="mx-2"></strong>
+                </div>
+
+                <div class="spinner-border mx-auto"></div>
+            </div>
         </template>
 
         <template x-if="!loading">
@@ -50,9 +57,16 @@
                     <input type="text" id="product" x-model="productList" class="form-control" dir="ltr">
                 </div>
 
-                <div x-show="importMass" class="form-group">
-                    <label for="page" class="float-right">تا صفحه</label>
-                    <input type="number" id="page" x-model="page" class="form-control text-center" dir="ltr">
+                <div x-show="importMass" class="row">
+                    <div class="form-group col-md">
+                        <label for="from_page" class="float-right">از صفحه</label>
+                        <input type="number" id="from_page" x-model="pages.from" class="form-control text-center" dir="ltr">
+                    </div>
+
+                    <div class="form-group col-md">
+                        <label for="to_page" class="float-right">تا صفحه</label>
+                        <input type="number" id="to_page" x-model="pages.to" class="form-control text-center" dir="ltr">
+                    </div>
                 </div>
 
                 <button class="btn btn-outline-success" @click="submitProducts" :disabled="!selectedCategory">ثبت محصولات</button>

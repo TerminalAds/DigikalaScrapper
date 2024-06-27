@@ -13,10 +13,10 @@ const createWindow = () => {
         width: 800,
         height: 600,
         resizable: false,
-        roundedCorners:true,
-        center:true,
-        hasShadow:true,
-        icon:path.join(__dirname, './src/fav.png'),
+        roundedCorners: true,
+        center: true,
+        hasShadow: true,
+        icon: path.join(__dirname, './src/fav.png'),
         webPreferences: {
             preload: path.join(__dirname, './preload.js'),
             nodeIntegration: true
@@ -26,15 +26,15 @@ const createWindow = () => {
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, './src/index.html'));
 
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    if (process.env.NODE_ENV)
+        mainWindow.webContents.openDevTools();
 
     Menu.setApplicationMenu(Menu.buildFromTemplate([
         {
             label: 'window',
             submenu: [
-                { role: 'toggleDevTools' },
-                { role: 'reload' },
+                {role: 'toggleDevTools'},
+                {role: 'reload'},
                 isMac ? {role: 'close'} : {role: 'quit'},
             ]
         }

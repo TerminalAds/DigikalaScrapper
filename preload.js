@@ -23,3 +23,12 @@ contextBridge.exposeInMainWorld('uploadFile', async function (request) {
         .then(({data}) => data)
         .catch(console.log);
 })
+
+contextBridge.exposeInMainWorld('getDigikalaProducts', async function (request) {
+    return await axios.get(request.url, {
+        params: {
+            page: request.page
+        }
+    }).then(({data}) => data.data.products)
+        .catch(console.log);
+})
