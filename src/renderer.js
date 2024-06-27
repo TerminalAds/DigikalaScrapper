@@ -4,10 +4,13 @@ window.Alpine = Alpine;
 
 Alpine.data('categories', () => ({
     loading: false,
+    importMass: true,
     categories: [],
     selectedCategory: null,
     breadCrumbs: [],
     _products: '',
+    productList: '',
+    page:10,
     init() {
         this.loading = true;
 
@@ -34,7 +37,13 @@ Alpine.data('categories', () => ({
             this.breadCrumbs.length
         );
     },
-    async submitProducts() {
+    submitProducts() {
+        if (!this.importMass)
+            this.getProducts();
+        else
+            console.log('salam');
+    },
+    async getProducts() {
         this.loading = true;
 
         const items = this._products.matchAll(/dkp-(\d+)/g);
@@ -45,6 +54,15 @@ Alpine.data('categories', () => ({
         }
 
         this.loading = false;
+    },
+    uniqObjectByKey(obj, key) {
+        const newObj = {};
+
+        obj.forEach(item => {
+            newObj[item[key]] = item
+        })
+
+        return Object.values(newObj);
     },
     async storeProduct(product) {
         const details = product?.specifications?.[0]?.attributes?.map(item => ({
@@ -92,19 +110,18 @@ Alpine.data('categories', () => ({
             });
         }
 
-
         const data = {
             "title": product.title_fa,
             "data": {
                 "title": product.title_fa,
                 "content": product?.expert_reviews?.description,
-                "price": product?.default_variant?.price?.selling_price,
+                "price": 0,
                 "discount": "",
                 "discount_type": "percent",
                 "packing_price": 0,
                 "options": {
-                    color,
-                    size
+                    color: this.uniqObjectByKey(color, 'color'),
+                    size: this.uniqObjectByKey(size, 'size')
                 },
                 "sub_products": {
                     "count": [],
@@ -135,8 +152,6 @@ Alpine.data('categories', () => ({
             },
             "category_id": this.selectedCategory
         };
-
-        console.log(data);
 
         return await storeProduct(data);
     }

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Digikala Scrapper</title>
-    <link rel="icon" href="./fav.png" type="image/x-icon" />
+    <link rel="icon" href="./fav.png" type="image/x-icon"/>
     <link href="./index.css" rel="stylesheet">
     <script src="./renderer.js" defer type="module"></script>
 </head>
@@ -35,9 +35,24 @@
 
                 <hr class="my-3">
 
-                <div class="form-group">
+                <div class="form-check form-group text-right">
+                    <input class="form-check-input" id="importMass" type="checkbox" x-model="importMass">
+                    <label class="form-check-label pr-3" for="importMass">لیست گروهی</label>
+                </div>
+
+                <div x-show="!importMass" class="form-group">
                     <label for="products" class="float-right">محصولات</label>
                     <textarea id="products" x-model="products" class="form-control"></textarea>
+                </div>
+
+                <div x-show="importMass" class="form-group">
+                    <label for="product" class="float-right">لیست محصول</label>
+                    <input type="text" id="product" x-model="productList" class="form-control" dir="ltr">
+                </div>
+
+                <div x-show="importMass" class="form-group">
+                    <label for="page" class="float-right">تا صفحه</label>
+                    <input type="number" id="page" x-model="page" class="form-control text-center" dir="ltr">
                 </div>
 
                 <button class="btn btn-outline-success" @click="submitProducts" :disabled="!selectedCategory">ثبت محصولات</button>
