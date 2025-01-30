@@ -2,6 +2,20 @@ import Alpine from '../node_modules/alpinejs/dist/module.esm.js';
 
 window.Alpine = Alpine;
 
+Alpine.data('tab', () => ({
+	currentTab: 'evano',
+	tabs: [
+		{
+			title: 'دیجی‌کالا',
+			key: 'digikala'
+		},
+		{
+			title: 'اوانو',
+			key: 'evano'
+		}
+	]
+}));
+
 Alpine.data('categories', () => ({
 	loading: false,
 	importMass: false,
@@ -188,6 +202,67 @@ Alpine.data('categories', () => ({
 
 		return await storeProduct(data);
 	}
-}))
+}));
+
+Alpine.data('evano', () => ({
+	phone: undefined,
+	loading: false,
+	showOtp: false,
+	otp: undefined,
+	token: undefined,
+	user: undefined,
+	sendOtp() {
+		this.loading = true;
+		this.showOtp = false;
+
+		evanoRequestOtp(this.phone)
+			.then(() => {
+				this.showOtp = true;
+			}).catch(console.log)
+			.finally(() => {
+				this.loading = false;
+			});
+	},
+	login() {
+		if (this.token)
+			return this.profile();
+
+		this.loading = true;
+
+		evanoLogin(this.phone, this.otp)
+			.then(res => {
+				this.token = res.data.result.data.token;
+				this.profile();
+			}).catch(console.log)
+			.finally(() => {
+				this.loading = false;
+			});
+	},
+	profile() {
+		this.loading = true;
+
+		evanoProfile(this.token)
+			.then(res => {
+				this.user = {
+					firstname: res.data.result.data.firstname,
+					lastname: res.data.result.data.lastname,
+					gender: res.data.result.data.attributes.gender,
+					birthDate: miladiToShamsi(...res.data.result.data.attributes.birthDate.split('-').map(i => +i)),
+					nationalCode: res.data.result.data.attributes.nationalCode,
+				}
+			}).catch(console.log)
+			.finally(() => {
+				this.loading = false;
+			});
+	},
+	reset() {
+		this.phone = undefined;
+		this.loading = false;
+		this.showOtp = false;
+		this.otp = undefined;
+		this.token = undefined;
+		this.user = undefined;
+	}
+}));
 
 Alpine.start();

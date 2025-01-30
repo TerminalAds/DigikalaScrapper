@@ -33,6 +33,7 @@
     "axios": "^1.7.2",
     "bootstrap": "^4.6.2",
     "electron-squirrel-startup": "^1.0.1",
+    "jalaali-js": "^1.2.7",
     "vazirmatn": "^33.0.3"
   }
 }

@@ -50,6 +50,7 @@ const createWindow = () => {
 				isMac ? {role: 'close'} : {role: 'quit'},
 			]
 		}
+
 	]));
 };
 
