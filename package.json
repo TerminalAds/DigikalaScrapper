@@ -31,7 +31,7 @@
   "dependencies": {
     "alpinejs": "^3.14.1",
     "axios": "^1.7.4",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.0.0",
     "electron-squirrel-startup": "^1.0.1",
     "jalaali-js": "^1.2.7",
     "vazirmatn": "^33.0.3"
